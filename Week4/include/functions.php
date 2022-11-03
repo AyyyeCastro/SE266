@@ -1,6 +1,6 @@
 <?php
- @return boolean
- 
+ /* @return boolean
+ */
 function isPostRequest() {
     return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
 }
