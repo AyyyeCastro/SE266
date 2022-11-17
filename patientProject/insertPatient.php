@@ -1,7 +1,7 @@
 <?php
   //call other files
-  include __DIR__ . '/model/patients.php';
-  include __DIR__ . '/include/functions.php';
+  include_once __DIR__ . '/model/patients.php';
+  include_once __DIR__ . '/include/functions.php';
 
   // if posted, send the values to the database
   if (isPostRequest()) {
@@ -11,7 +11,7 @@
     $BD = filter_input(INPUT_POST, 'B_D');
     $result = insertPatient ($fName, $lName, $marStatus, $BD);    
 
-    header('Location: view.php');
+    header('Location: viewPatients.php');
   }
 ?>
     
@@ -32,7 +32,7 @@
 
    <br />
    <div class="col-sm-offset-1 col-sm-10">
-      <p><a href="./view.php">View Current Patients</a></p>
+      <p><a href="./viewPatients.php">View Current Patients</a></p>
    </div>
    <br />
 

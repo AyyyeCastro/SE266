@@ -1,7 +1,7 @@
 <?php 
    // reference other files
-  include __DIR__ . '/model/patients.php';
-  include __DIR__ . '/include/functions.php';
+   include_once __DIR__ . '/model/patients.php';
+   include_once __DIR__ . '/include/functions.php';
 
 
   // if via get method 
@@ -34,11 +34,11 @@
    // depending on the action, execute a specific function from model/patients.php
   if(isPostRequest() && $action =="update"){
       $result = updatePatient($id, $fName, $lName, $marStatus, $BD);
-      header('Location: view.php');
+      header('Location: viewPatients.php');
    }elseif (isPostRequest() && $action =="delete"){
      $id = filter_input(INPUT_POST, 'p_id');
      $result = deletePatient($id);
-     header('Location: view.php');
+     header('Location: viewPatients.php');
    }   
 ?>
 
@@ -58,11 +58,11 @@
    <h2><?php echo $action." patient"?></h1><br>
    <br />
    <div class="col-sm-offset-1 col-sm-10">
-      <p><a href="./view.php">View Current Patients</a></p>
+      <p><a href="./viewPatients.php">View Current Patients</a></p>
    </div>
    <br />
 
-   <form class="form-horizontal" action="PatientRecord.php" method="POST">
+   <form class="form-horizontal" action="editPatient.php" method="POST">
       <input type="hidden" name="action" value="<?php echo $action; ?>">
       <input type="hidden" name="p_id" value="<?php echo $id; ?>">
    

@@ -100,7 +100,7 @@ function deletePatient ($id) {
        
    $isUpdated = ($stmt->execute() && $stmt->rowCount() > 0);
    
-   return ($results);
+   return ($isDeleted);
 }
 
 //$result = insertPatient('Andrew', 'Castro', 0,'04-07-1999');

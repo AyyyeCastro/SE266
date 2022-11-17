@@ -1,3 +1,10 @@
+<?php 
+session_start ();
+if(!isset($_SESSION["isLoggedIn"]))
+
+	header("location:login.php"); 
+?>
+
 <html lang="en">
 <head>
   <title>View Patient Records</title>
@@ -16,8 +23,8 @@
 
    <?php 
       // call the other files
-      include __DIR__ . '/model/patients.php';
-      include __DIR__ . '/include/functions.php';
+      include_once __DIR__ . '/model/patients.php';
+      include_once __DIR__ . '/include/functions.php';
 
       // call the function
       $patientData = getPatients();
@@ -41,12 +48,12 @@
                <td><?php echo $row['patientMarried']; ?></td>  
                <td><?php echo $row['patientBirthDate']; ?></td>    
                <td><!-- "updatePatient.php?p_id= ..echo $row['id'];?>" -->
-               <a href="PatientRecord.php?action=update&p_id=<?php echo $row['id'];?>">Edit</a>
+               <a href="editPatient.php?action=update&p_id=<?php echo $row['id'];?>">Edit</a>
                </td>
                <td>
                   <form action="view.php" method="post">
                      <input type="hidden" name="p_id" value="<?php echo $row['id'];?>" />
-                     <a href="PatientRecord.php?action=delete&p_id=<?php echo $row['id'];?>">delete</a>
+                     <a href="editPatient.php?action=delete&p_id=<?php echo $row['id'];?>">delete</a>
                   </form>
                </td>
             </tr>
