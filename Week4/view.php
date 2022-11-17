@@ -11,7 +11,7 @@
 <div class="container">
      <div class="col-sm-offset-2 col-sm-10">
      
-   <h1>Patients</h1>
+   <h1>Patient Database &nbsp&nbsp&nbsp&nbsp<a href="insertPatient.php">Insert Patient</a></h1>
 
 
    <?php 
@@ -23,6 +23,7 @@
       $patientData = getPatients();
    ?>
 
+   <br/>
    <table class="table table-striped">
         <thead>
             <tr>
@@ -39,8 +40,8 @@
                <td><?php echo $row['patientLastName']; ?></td>     
                <td><?php echo $row['patientMarried']; ?></td>  
                <td><?php echo $row['patientBirthDate']; ?></td>    
-               <td>
-                  <a href="PatientRecord.php?action=update&p_id=<?php echo $row['id'];?>">Edit</a>
+               <td><!-- "updatePatient.php?p_id= ..echo $row['id'];?>" -->
+               <a href="PatientRecord.php?action=update&p_id=<?php echo $row['id'];?>">Edit</a>
                </td>
                <td>
                   <form action="view.php" method="post">
@@ -52,8 +53,6 @@
         <?php endforeach; ?>
         </tbody>
     </table>
-    <br />
-    <a href="insertPatient.php">Insert Patient</a>
     </div>
 </div>
 </body>

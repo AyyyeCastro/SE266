@@ -32,14 +32,11 @@
    }
 
    // depending on the action, execute a specific function from model/patients.php
-   if(isPostRequest() && $action =="add"){
-      $result =insertPatient($fName, $lName, $marStatus, $BD);
-      header('Location: view.php');
-   }elseif(isPostRequest() && $action =="update"){
+  if(isPostRequest() && $action =="update"){
       $result = updatePatient($id, $fName, $lName, $marStatus, $BD);
       header('Location: view.php');
    }elseif (isPostRequest() && $action =="delete"){
-      $id = filter_input(INPUT_POST, 'p_id');
+     $id = filter_input(INPUT_POST, 'p_id');
      $result = deletePatient($id);
      header('Location: view.php');
    }   
@@ -59,8 +56,13 @@
 <div class="container">
 
    <h2><?php echo $action." patient"?></h1><br>
+   <br />
+   <div class="col-sm-offset-1 col-sm-10">
+      <p><a href="./view.php">View Current Patients</a></p>
+   </div>
+   <br />
 
-   <form class="form-horizontal" action="PatientRecord.php" method="GET">
+   <form class="form-horizontal" action="PatientRecord.php" method="POST">
       <input type="hidden" name="action" value="<?php echo $action; ?>">
       <input type="hidden" name="p_id" value="<?php echo $id; ?>">
    
@@ -91,7 +93,7 @@
     <div class="form-group">
       <label class="control-label col-sm-2" for="BD">Patient Birthdate:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="BD" placeholder="Enter birthdate" name="BD" value="<?php echo $BD; ?>">
+        <input type="date" class="form-control" id="BD" placeholder="Enter birthdate" name="BD" value="<?php echo $BD; ?>">
       </div>
     </div> 
     

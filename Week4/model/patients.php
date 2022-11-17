@@ -10,7 +10,7 @@ function getPatients()
     $results = [];                  
     global $db;  
 
-    $stmt = $db->prepare("SELECT id, patientFirstName, patientLastName, patientMarried, patientBirthDate FROM patients ORDER BY patientLastName"); 
+    $stmt = $db->prepare("SELECT id, patientFirstName, patientLastName, patientMarried, patientBirthDate FROM patients ORDER BY id"); 
     
     if ($stmt->execute() && $stmt->rowCount() >0){
       $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -64,32 +64,28 @@ function getPatientRecord ($id)
     }
 
     // Return results to client
-    return $results;
+    return ($results);
 }
 
 
 /// UPDATE ///
-function updatePatient ($fName, $lName, $marStatus, $BD, $id){
-   global $db;
+function updatePatient ($id, $fName, $lName, $marStatus, $BD){
 
-   $results = [];
+   $isUpdated = false;
+   global $db;
 
    $stmt = $db->prepare("UPDATE patients SET patientFirstName = :FName, patientLastName = :LName, patientMarried = :MarStatus, patientBirthDate = :bd WHERE id=:id");
    
-   $bindParameters = array(
-      ":id" => $id,
-      ":FName" => $fName,
-      ":LName" => $lName,
-      ":MarStatus"=> $marStatus,
-      ":bd"=> $BD
-   );
+   $stmt->bindValue(":id", $id);
+   $stmt->bindValue(":FName", $fName);
+   $stmt->bindValue(":LName", $lName);
+   $stmt->bindValue(":MarStatus", $marStatus);
+   $stmt->bindValue(":bd", $BD);
 
+   $isUpdated = ($stmt->execute() && $stmt->rowCount() > 0);
 
-   if($stmt->execute($bindParameters) && $stmt->rowCount() >0){
-      $results = 'Patient Record Updated';
-   }
    
-   return ($results);
+   return ($isUpdated);
 }
 
 
@@ -97,14 +93,12 @@ function updatePatient ($fName, $lName, $marStatus, $BD, $id){
 function deletePatient ($id) {
    global $db;
    
-   $results = "Patient Records NOT deleted";
+   $isDeleted = false;
    $stmt = $db->prepare("DELETE FROM patients WHERE id=:id");
    
    $stmt->bindValue(':id', $id);
        
-   if ($stmt->execute() && $stmt->rowCount() > 0) {
-      $results = 'Data Deleted';
-  }
+   $isUpdated = ($stmt->execute() && $stmt->rowCount() > 0);
    
    return ($results);
 }
