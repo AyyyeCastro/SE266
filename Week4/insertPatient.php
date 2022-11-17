@@ -62,7 +62,7 @@
     <div class="form-group">
       <label class="control-label col-sm-2" for="BD">Patient Birthdate:</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="BD" placeholder="Enter birthdate" name="BD">
+        <input type="date" class="form-control" id="BD" placeholder="Enter birthdate" name="BD">
       </div>
     </div> 
     

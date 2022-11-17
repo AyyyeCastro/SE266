@@ -2,18 +2,18 @@
    // reference other files
   include __DIR__ . '/model/patients.php';
   include __DIR__ . '/include/functions.php';
-  $patientData = getPatients();
+
 
   // if via get method 
    if(isset($_GET['action'])){
       $action = filter_input(INPUT_GET, 'action');
       $id = filter_input(INPUT_GET, 'p_id');
       if($action =="update"){
-         $row=getPatients($id);
-         $fName=$row['fName'];
-         $lName=$row['lName'];
-         $marStatus=$row['marStatus'];
-         $BD = $row['BD'];
+         $row=getPatientRecord($id);
+         $fName=$row['patientFirstName'];
+         $lName=$row['patientLastName'];
+         $marStatus=$row['patientMarried'];
+         $BD = $row['patientBirthDate'];
       }else{
          $fName ="";
          $lName="";

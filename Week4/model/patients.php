@@ -44,9 +44,32 @@ function insertPatient($fName, $lName, $marStatus, $BD)
    return ($results);
 }
 
+function getPatientRecord ($id) 
+{
+    $results = [];                  // Array to hold results
+    global $db;
+
+    // Preparing SQL query 
+    //    id is used to ensure we delete correct record
+    $stmt = $db->prepare("SELECT id, patientFirstName, patientLastName, patientMarried, patientBirthDate FROM patients WHERE id=:id");
+
+     // Bind query parameter to method parameter value
+     $stmt->bindValue(':id', $id);
+   
+     // Execute query and check to see if rows were returned 
+     if ( $stmt->execute() && $stmt->rowCount() > 0 ) 
+     {
+        // if successful, grab the first row returned
+        $results = $stmt->fetch(PDO::FETCH_ASSOC);                       
+    }
+
+    // Return results to client
+    return $results;
+}
+
 
 /// UPDATE ///
-function updatePatient ($id, $fName, $lName, $marStatus, $BD) {
+function updatePatient ($fName, $lName, $marStatus, $BD, $id){
    global $db;
 
    $results = [];
