@@ -14,7 +14,7 @@
     $configFile = __DIR__ . '/model/dbconfig.ini';
     try 
     {
-        $userDatabase = new userSearchClass($configFile);
+        $patientDataBase = new userSearchClass($configFile);
     } 
     catch ( Exception $error ) 
     {
@@ -29,28 +29,41 @@
         {
             $fName="";
             $lName="";
-            if ($_POST["fName"] == "patientFirstName")
+            $marStatus="";
+            $bYear="";
+            // If the user chose (from the drop down list) the option -> firstName (as assigned by it's value)
+            if ($_POST["optionChosen"] == "firstName")
             {
-                $fName = $_POST['fName'];
+               // then $fName variable will be assigned the text the user input.
+                $fName = $_POST['userInputValue'];
             }
-            if ($_POST["lName"] == "patientLastName")
+            if($_POST["optionChosen"] == "lastName") 
             {
-                $LName = $_POST['lName'];
+               $lName = $_POST['userInputValue'];
             }
-            //echo "Team: " . $fName . "   LName: " . $divison;
-            $listPatients = $userDatabase->findPatient ($fName, $lName);
+            if($_POST["optionChosen"] == "Marriage") 
+            {
+               $marStatus = $_POST['userInputValue'];
+            }
+            if($_POST["optionChosen"] == "birthYear") 
+            {
+               $bYear = $_POST['userInputValue'];
+            }
+            
+            // Display the results of the record found.
+            $listPatients = $patientDataBase->findPatient ($fName, $lName, $marStatus, $bYear);
         }
         else
         {
         
-            $id = filter_input(INPUT_POST, 'p_id');
-            $userDatabase->deletePatient ($id);
-            $listPatients = $userDatabase->getPatients();
+            $id = filter_input(INPUT_POST, 'teamId');
+            $patientDataBase->userDelete ($id);
+            $teamListing = $patientDataBase->getPatients();
         }
     }
     else
     {
-        $listPatients = $userDatabase->getPatients();
+        $listPatients = $patientDataBase->getPatients();
     }
 ?>
 
@@ -62,6 +75,11 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+      body{
+         font-size: 15px;
+      }
+   </style>
 </head>
 <body>
 <div class="container">
@@ -74,8 +92,8 @@
    if (isUserLoggedIn()) 
    { ?>
       <h4>
-         <a href="insertPatient.php">Insert Patient  |</a> 
-         <a href="searchPatient.php">Find Patient |</a>&nbsp
+         <a href="insertPatient.php">Insert Patient |</a> &nbsp
+         <a href="./searchPatients.php">View All Patients  |</a> &nbsp
          <a href="logoff.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a> 
       <h4>
 
@@ -84,27 +102,28 @@
    ?>
    <hr/>
 
-   <h3><b>Find Patient</b></h3>
+
    <form action="#" method="post">
       <input type="hidden" name="action" value="search" />
-
-      <label class="control-label for="fName">First Name:</label>
-      <input type="text" class="form-control" id="fName" placeholder="Enter first name" name="fName" style="max-width: 40vw;">
-
-
-
-      <label class="control-label for="lName">Last Name:</label>
-      <input type="text" class="form-control" id="lName" placeholder="Enter Last name" name="lName" style="max-width: 40vw;">
-      <br> 
-      <button type="submit" name="Search">Search</button>    
-   </form>  
-     
+      <label>Find Patient</label>
+       <select name="optionChosen">
+              <option value="">Choose Criteria</option>
+              <option value="firstName">First Name</option>
+              <option value="lastName">Last Name</option>     
+              <option value="Marriage">Marriage (1 or 0)</option>       
+              <option value="Birthyear">Birthyear</option>  
+          </select>
+       <input type="text" name="userInputValue" />
+      <button type="submit" name="Search">Search</button>     
+  </form>   
+ 
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Married</th>
+                <th>Birthdate</th>
                 <th>Update</th>
             </tr>
         </thead>
@@ -121,6 +140,7 @@
                 </td>
                 <td><?php echo $row['patientLastName']; ?></td> 
                 <td><?php echo $row['patientMarried']; ?></td> 
+                <td><?php echo $row['patientBirthDate']; ?></td> 
                 <td><a href="editPatient.php?action=update&p_id=<?php echo $row['id'];?>">Update</a></td> 
                 
             </tr>

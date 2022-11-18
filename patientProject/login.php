@@ -37,7 +37,7 @@
             // If so, set logged in to TRUE
             $_SESSION['isLoggedIn'] = true;
             // Redirect to team listing page
-            header ('Location: viewPatients.php');
+            header ('Location: searchPatients.php');
         } 
         else 
         {

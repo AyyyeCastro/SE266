@@ -18,7 +18,7 @@
     $BD = filter_input(INPUT_POST, 'B_D');
     $result = insertPatient ($fName, $lName, $marStatus, $BD);    
 
-    header('Location: viewPatients.php');
+    header('Location: searchPatients.php');
   }
 ?>
     

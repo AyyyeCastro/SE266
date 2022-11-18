@@ -5,36 +5,66 @@
 
 class userSearchClass extends PatientClass
 {
-      function findPatient ($fName, $lName){
+      function findPatient ($fName, $lName, $marStatus, $bYear){
          $results = [];             
          $binds = [];               
          $patientDB = $this->getDatabaseRef(); 
 
+         // start of the sql statement
          $sqlStmt =  "SELECT * FROM  patients   ";
          
-         $isFNameMatch = true;
-         // If team is set, append team query and bind parameter
+         // set default value as true
+         $firstInputMatch = true;
+
+         //if the first name is not null (a value was input) ->
          if ($fName != ""){
-               if ($isFNameMatch){
-                  $sqlStmt .=  " WHERE ";
-                  $isFNameMatch = false;
-               }else{
-                  $sqlStmt .= " AND ";
-               }
-               $sqlStmt .= "  patientFirstName LIKE :FName";
-               $binds['fName'] = '%'.$fName.'%';
+            //if the value was a match
+            if ($firstInputMatch){
+               // continue sql statement.. "SELECT * FROM patients WHERE ...."
+               $sqlStmt .=  " WHERE ";
+               $firstInputMatch = false;
+            }else{
+               $sqlStmt .= " AND ";
+            }
+            $sqlStmt .= "  patientFirstName LIKE :fName";
+            $binds['fName'] = '%'.$fName.'%';
          }
       
-         // If division is set, append team query and bind parameter
+         //if Last name is not null ->
          if ($lName != ""){
-               if ($isFNameMatch){
+               if ($firstInputMatch){
+                  // continue sql statement.. "SELECT * FROM patients WHERE ...."
                   $sqlStmt .=  " WHERE ";
-                  $isFNameMatch = false;
+                  $firstInputMatch = false;
                }else{
                   $sqlStmt .= " AND ";
                }
-               $sqlStmt .= "  patientLastName LIKE :LName";
+               $sqlStmt .= "  patientLastName LIKE :lName";
                $binds['lName'] = '%'.$lName.'%';
+         }
+
+         if ($marStatus != ""){
+            if ($firstInputMatch){
+               // continue sql statement.. "SELECT * FROM patients WHERE ...."
+               $sqlStmt .=  " WHERE ";
+               $firstInputMatch = false;
+            }else{
+               $sqlStmt .= " AND ";
+            }
+            $sqlStmt .= "  patientMarried = :marStatus";
+            $binds['marStatus'] = '%'.$marStatus.'%';
+         }
+
+         if ($bYear != ""){
+            if ($firstInputMatch){
+               // continue sql statement.. "SELECT * FROM patients WHERE ...."
+               $sqlStmt .=  " WHERE ";
+               $firstInputMatch = false;
+            }else{
+               $sqlStmt .= " AND ";
+            }
+            $sqlStmt .= "  patientBirthDate LIKE :bYear";
+            $binds['bYear'] = '%'. $bYear .'%';
          }
       
          // Create query object

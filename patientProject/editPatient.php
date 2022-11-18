@@ -42,11 +42,11 @@
    // depending on the action, execute a specific function from model/patients.php
   if(isPostRequest() && $action =="update"){
       $result = updatePatient($id, $fName, $lName, $marStatus, $BD);
-      header('Location: viewPatients.php');
+      header('Location: searchPatients.php');
    }elseif (isPostRequest() && $action =="delete"){
      $id = filter_input(INPUT_POST, 'p_id');
      $result = deletePatient($id);
-     header('Location: viewPatients.php');
+     header('Location: searchPatients.php');
    }   
 ?>
 
@@ -66,7 +66,7 @@
    <h2><?php echo $action." patient"?></h1><br>
    <br />
    <div class="col-sm-offset-1 col-sm-10">
-      <p><a href="./viewPatients.php">View Current Patients</a></p>
+      <p><a href="./searchPatients.php">View Current Patients</a></p>
    </div>
    <br />
 
