@@ -1,8 +1,17 @@
 <?php 
-session_start ();
-if(!isset($_SESSION["isLoggedIn"]))
-
-	header("location:login.php"); 
+   // call the other files
+   include_once __DIR__ . '/model/patients.php';
+   include_once __DIR__ . '/include/functions.php';
+   session_start();
+  
+   if(!isset($_SESSION["isLoggedIn"]))
+   { 
+   header("location:login.php"); 
+   }
+   
+   // call the function
+   $patientData = getPatients();
+   
 ?>
 
 <html lang="en">
@@ -16,20 +25,21 @@ if(!isset($_SESSION["isLoggedIn"]))
 </head>
 <body>
 <div class="container">
-     <div class="col-sm-offset-2 col-sm-10">
+     <div class="col-sm-offset-1 col-sm-10">
      
-   <h1>Patient Database &nbsp&nbsp&nbsp&nbsp<a href="insertPatient.php">Insert Patient</a></h1>
+   <h1><b>Castro Patient Database | Admin</b></h1><br>
+   <?php
+   if (isUserLoggedIn()) 
+   { ?>
+      <h4>
+         <a href="insertPatient.php">Insert Patient  |</a> 
+         <a href="searchPatient.php">Find Patient |</a>&nbsp
+         <a href="logoff.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a> 
+      <h4>
 
-
-   <?php 
-      // call the other files
-      include_once __DIR__ . '/model/patients.php';
-      include_once __DIR__ . '/include/functions.php';
-
-      // call the function
-      $patientData = getPatients();
+      <?php
+   }
    ?>
-
    <br/>
    <table class="table table-striped">
         <thead>

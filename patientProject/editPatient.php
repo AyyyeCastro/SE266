@@ -1,7 +1,15 @@
 <?php 
-   // reference other files
-   include_once __DIR__ . '/model/patients.php';
-   include_once __DIR__ . '/include/functions.php';
+
+  //call other files
+  include_once __DIR__ . '/model/patients.php';
+  include_once __DIR__ . '/include/functions.php';
+  session_start();
+
+  if(!isset($_SESSION["isLoggedIn"]))
+  { 
+    header("location:login.php"); 
+  }
+  
 
 
   // if via get method 

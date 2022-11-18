@@ -1,51 +1,53 @@
 <?php
 
-include_once __DIR__ . '/patients.php'; 
+   // extend the work done in patients.php
+   include_once __DIR__ . '/patientsBETA.php'; 
 
+class userSearchClass extends PatientClass
+{
+      function findPatient ($fName, $lName){
+         $results = [];             
+         $binds = [];               
+         $patientDB = $this->getDatabaseRef(); 
 
-    function findPatient ($fName, $lName){
-        $results = [];             
-        $binds = [];               
-        global $db; 
+         $sqlStmt =  "SELECT * FROM  patients   ";
+         
+         $isFNameMatch = true;
+         // If team is set, append team query and bind parameter
+         if ($fName != ""){
+               if ($isFNameMatch){
+                  $sqlStmt .=  " WHERE ";
+                  $isFNameMatch = false;
+               }else{
+                  $sqlStmt .= " AND ";
+               }
+               $sqlStmt .= "  patientFirstName LIKE :FName";
+               $binds['fName'] = '%'.$fName.'%';
+         }
+      
+         // If division is set, append team query and bind parameter
+         if ($lName != ""){
+               if ($isFNameMatch){
+                  $sqlStmt .=  " WHERE ";
+                  $isFNameMatch = false;
+               }else{
+                  $sqlStmt .= " AND ";
+               }
+               $sqlStmt .= "  patientLastName LIKE :LName";
+               $binds['lName'] = '%'.$lName.'%';
+         }
+      
+         // Create query object
+         $stmt = $patientDB->prepare($sqlStmt);
 
-        $sqlQuery =  "SELECT * FROM  patients   ";
-        
-        $isFNameMatch = true;
-        // If team is set, append team query and bind parameter
-        if ($fName != ""){
-            if ($isFNameMatch){
-                $sqlQuery .=  " WHERE ";
-                $isFNameMatch = false;
-            }else{
-                $sqlQuery .= " AND ";
-            }
-            $sqlQuery .= "  patientFirstName LIKE :fName";
-            $binds['fName'] = '%'.$fName.'%';
-        }
-    
-        // If division is set, append team query and bind parameter
-        if ($lName != ""){
-            if ($isFNameMatch){
-                $sqlQuery .=  " WHERE ";
-                $isFNameMatch = false;
-            }else{
-                $sqlQuery .= " AND ";
-            }
-            $sqlQuery .= "  patientLastName LIKE :lName";
-            $binds['division'] = '%'.$lName.'%';
-        }
-    
-        // Create query object
-        $stmt = $db->prepare($sqlQuery);
-
-        // Perform query
-        if ($stmt->execute($binds) && $stmt->rowCount() > 0){
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-        
-        // Return query rows (if any)
-        return $results;
-    } // end search teams
+         // Perform query
+         if ($stmt->execute($binds) && $stmt->rowCount() > 0){
+               $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+         }
+         
+         // Return query rows (if any)
+         return $results;
+      } // end search teams
 }
 
 ?>
