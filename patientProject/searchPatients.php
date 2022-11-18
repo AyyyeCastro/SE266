@@ -20,8 +20,6 @@
     {
         echo "<h2>" . $error->getMessage() . "</h2>";
     }   
-
-    // If POST, delete the requested team before listing all teams
     $listPatients = [];
     if (isPostRequest()) 
     {
@@ -30,35 +28,35 @@
             $fName="";
             $lName="";
             $marStatus="";
-            $bYear="";
+            $bd="";
             // If the user chose (from the drop down list) the option -> firstName (as assigned by it's value)
             if ($_POST["optionChosen"] == "firstName")
             {
                // then $fName variable will be assigned the text the user input.
                 $fName = $_POST['userInputValue'];
             }
-            if($_POST["optionChosen"] == "lastName") 
+            elseif($_POST["optionChosen"] == "lastName") 
             {
                $lName = $_POST['userInputValue'];
             }
-            if($_POST["optionChosen"] == "Marriage") 
+            elseif($_POST["optionChosen"] == "mar") 
             {
                $marStatus = $_POST['userInputValue'];
             }
-            if($_POST["optionChosen"] == "birthYear") 
+            elseif($_POST["optionChosen"] == "birth") 
             {
-               $bYear = $_POST['userInputValue'];
+               $bd = $_POST['userInputValue'];
             }
             
             // Display the results of the record found.
-            $listPatients = $patientDataBase->findPatient ($fName, $lName, $marStatus, $bYear);
+            $listPatients = $patientDataBase->findPatient ($fName, $lName, $marStatus, $bd);
         }
         else
         {
         
-            $id = filter_input(INPUT_POST, 'teamId');
+            $id = filter_input(INPUT_POST, 'p_id');
             $patientDataBase->userDelete ($id);
-            $teamListing = $patientDataBase->getPatients();
+            $listPatients = $patientDataBase->getPatients();
         }
     }
     else
@@ -102,7 +100,6 @@
    ?>
    <hr/>
 
-
    <form action="#" method="post">
       <input type="hidden" name="action" value="search" />
       <label>Find Patient</label>
@@ -110,8 +107,8 @@
               <option value="">Choose Criteria</option>
               <option value="firstName">First Name</option>
               <option value="lastName">Last Name</option>     
-              <option value="Marriage">Marriage (1 or 0)</option>       
-              <option value="Birthyear">Birthyear</option>  
+              <option value="mar">Marriage (1 or 0)</option>       
+              <option value="birth">Birthyear</option>  
           </select>
        <input type="text" name="userInputValue" />
       <button type="submit" name="Search">Search</button>     

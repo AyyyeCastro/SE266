@@ -15,12 +15,9 @@
     $message = "";
     if (isPostRequest()) 
     {
-
-        // get inputted form values from POST
         $userName = filter_input(INPUT_POST, 'userName');
         $PW = filter_input(INPUT_POST, 'userPW');
 
-        // Set up configuration file and create database
         $configFile = __DIR__ . '/model/dbconfig.ini';
         try 
         {
@@ -31,17 +28,13 @@
             echo "<h2>" . $error->getMessage() . "</h2>";
         }   
     
-        // Now we can check to see if use credentials are valid.
         if ($userDatabase->isUserTrue($userName, $PW)) 
         {
-            // If so, set logged in to TRUE
             $_SESSION['isLoggedIn'] = true;
-            // Redirect to team listing page
             header ('Location: searchPatients.php');
         } 
         else 
         {
-           // Whoops! Incorrect login. Tell user and stay on this page.
            $message = "Incorrect login credentials. Please try again.";
         }
     }

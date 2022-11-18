@@ -1,41 +1,33 @@
 <?php
    class PatientClass
    {
+      //represents the DB
       private $patientData;
  
+      // set the connectiontion 
       public function __construct($configFile)
       {
-          // Parse config file, throw exception if it fails
           if ($ini = parse_ini_file($configFile))
           {
-              // Create PHP Database Object
               $patientDB = new PDO( "mysql:host=" . $ini['servername'] . 
                                   ";port=" . $ini['port'] . 
                                   ";dbname=" . $ini['dbname'], 
                                   $ini['username'], 
                                   $ini['password']);
-  
-              // Don't emulate (pre-compile) prepare statements
               $patientDB->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
   
-              // Throw exceptions if there is a database error
               $patientDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   
-              //Set our database to be the newly created PDO
               $this->patientData = $patientDB;
           }
           else
           {
-              // Things didn't go well, throw exception!
               throw new Exception( "<h2>Creation of database object failed!</h2>", 0, null );
           }
   
-      } // end constructor
+      }
       
-      
-      //call db.php file
-      //include(__DIR__ .'/db.php');
-
+      // get all of the all of the patient records
       public function getPatients() 
       {
          $results = [];                  
@@ -51,7 +43,7 @@
       }
 
 
-      /// INSERT ///
+      // allow employee to insert a patient record.
       public function insertPatient($fName, $lName, $marStatus, $BD)
       {
          $isPatientAdded = false;
@@ -59,7 +51,6 @@
 
          $stmt = $patientTable->prepare("INSERT INTO patients SET patientFirstName = :FName, patientLastName = :LName, patientMarried = :MarStatus, patientBirthDate = :bd");
 
-         // set the sql statements to what is passed into the variables
          $bindParameters = array(
             ":FName" => $fName,
             ":LName" => $lName,
@@ -67,38 +58,31 @@
             ":bd"=> $BD
          );
 
-         //var_dump($bindParameters);
-
          $isPatientAdded = ($stmt->execute($bindParameters) && $stmt->rowCount() > 0);
 
          return ($risPatientAddedesults);
       }
 
+      // gather one patient record, where the ID is matched.
       public function getPatientRecord ($id) 
       {
-         $results = [];                  // Array to hold results
+         $results = [];                
          $patientTable = $this->patientData;
 
-         // Preparing SQL query 
-         //    id is used to ensure we delete correct record
          $stmt = $db->prepare("SELECT id, patientFirstName, patientLastName, patientMarried, patientBirthDate FROM patients WHERE id=:id");
 
-         // Bind query parameter to method parameter value
          $stmt->bindValue(':id', $id);
          
-         // Execute query and check to see if rows were returned 
          if ( $stmt->execute() && $stmt->rowCount() > 0 ) 
          {
-            // if successful, grab the first row returned
             $results = $stmt->fetch(PDO::FETCH_ASSOC);                       
          }
 
-         // Return results to client
          return ($results);
       }
 
 
-      /// UPDATE ///
+      // update a patient's records, where the ID is a match.
       public function updatePatient ($id, $fName, $lName, $marStatus, $BD){
 
          $isUpdated = false;
@@ -114,12 +98,11 @@
 
          $isUpdated = ($stmt->execute() && $stmt->rowCount() > 0);
 
-         
          return ($isUpdated);
       }
 
 
-      /// DELETE ///
+      // delete a patient's record, where the ID is a match.
       public function deletePatient ($id) {
          $patientTable = $this->patientData;
          
@@ -133,20 +116,17 @@
          return ($isDeleted);
       }
 
+      // ref the db
       protected function getDatabaseRef()
       {
          return $this->patientData;
       }
 
-      // Destructor to clean up any memory allocation
+      // clear memory
       public function __destruct() 
       {
-         // Mark the PDO for deletion
          $this->patientData = null;
       }
-
-      //$result = insertPatient('Andrew', 'Castro', 0,'04-07-1999');
-     // $patientData = getPatients();
    }
 
 ?>

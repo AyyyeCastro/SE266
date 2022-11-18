@@ -29,7 +29,6 @@
          $BD ="";
       }
 
-  // Post is working fine, the get method is giving me a problem. >:(
    }elseif(isset($_POST['action'])){
       $action = filter_input(INPUT_POST, 'action');
       $id = filter_input(INPUT_POST, 'p_id');

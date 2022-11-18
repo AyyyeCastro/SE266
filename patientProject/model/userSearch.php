@@ -44,6 +44,7 @@ class userSearchClass extends PatientClass
          }
 
          if ($marStatus != ""){
+            //if the value was a match
             if ($firstInputMatch){
                // continue sql statement.. "SELECT * FROM patients WHERE ...."
                $sqlStmt .=  " WHERE ";
@@ -51,11 +52,12 @@ class userSearchClass extends PatientClass
             }else{
                $sqlStmt .= " AND ";
             }
-            $sqlStmt .= "  patientMarried = :marStatus";
-            $binds['marStatus'] = '%'.$marStatus.'%';
+            $sqlStmt .= "  patientMarried LIKE :MarStatus";
+            $binds['MarStatus'] = '%'.$marStatus.'%';
          }
 
          if ($bYear != ""){
+            //if the value was a match
             if ($firstInputMatch){
                // continue sql statement.. "SELECT * FROM patients WHERE ...."
                $sqlStmt .=  " WHERE ";
@@ -63,21 +65,18 @@ class userSearchClass extends PatientClass
             }else{
                $sqlStmt .= " AND ";
             }
-            $sqlStmt .= "  patientBirthDate LIKE :bYear";
-            $binds['bYear'] = '%'. $bYear .'%';
+            $sqlStmt .= "  patientBirthDate LIKE :bd";
+            $binds['bd'] = '%'.$bYear.'%';
          }
-      
-         // Create query object
+
          $stmt = $patientDB->prepare($sqlStmt);
 
-         // Perform query
          if ($stmt->execute($binds) && $stmt->rowCount() > 0){
                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
          }
          
-         // Return query rows (if any)
          return $results;
-      } // end search teams
+      } 
 }
 
 ?>

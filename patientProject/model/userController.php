@@ -4,10 +4,6 @@ class Users
 {
     private $userData;
 
-    // This class provides a wrapper for the database 
-    // All methods work on the users table
-    // include(__DIR__ .'/db.php');
-
     // Used to salt user password
     const saltPW = "saltedPW";
 
@@ -24,21 +20,17 @@ class Users
                                 $ini['username'], 
                                 $ini['password']);
 
-            // Don't emulate (pre-compile) prepare statements
             $userDB->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-            // Throw exceptions if there is a database error
             $userDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            //Set our database to be the newly created PDO
             $this->userData = $userDB;
         }
         else
         {
-            // Things didn't go well, throw exception!
             throw new Exception( "<h2>Creation of database object failed!</h2>", 0, null );
         }
-    } // end constructor
+    } 
 
     // Pull ALL user data.
     public function getUsers() 
@@ -67,19 +59,14 @@ class Users
 
         $stmt = $userTable->prepare("INSERT INTO userTable SET userName = :uName, userPW = :uPW, userSalt = :uSalt");
 
-        // Bind query parameters to method parameter values
         $bindParameters = array(
             ":uName" => $user,
             ":uPW" => sha1($salt . $PW),
             ":uSalt" => $salt
         );       
         
-         // Execute query and check to see if rows were returned 
-         // If so, the user was successfully added
         $isUserAdded = ($stmt->execute($bindParameters) && $stmt->rowCount() > 0);
 
-
-         // Return status to client
          return ($isUserAdded);
     }
    
@@ -87,19 +74,11 @@ class Users
     // DELETE user record.
     public function userDelete ($id) 
     {
-        $isUserDeleted = false;       // user not updated at this point
+        $isUserDeleted = false;     
         $userTable = $this->userData; 
-
-    //    $stmt = $db->prepare("DELETE FROM users WHERE id=:id");
-   
-    //    $stmt->bindValue(':id', $id);
-            
-    //    $isUpdated = ($stmt->execute() && $stmt->rowCount() > 0);
 
         return ($isUserDeleted);
     }
-
-    // Allows children to make database queries.
     public function getDatabaseRef()
     {
         return $this->userData;
@@ -108,7 +87,7 @@ class Users
    // pull ONE user record.
     public function getUserRecord($id) 
     {
-        $results = [];                  // Array to hold results
+        $results = [];                  
         $userTable = $this->userData;
     
         // Preparing SQL query 
@@ -125,7 +104,6 @@ class Users
     //        $results = $stmt->fetch(PDO::FETCH_ASSOC);                       
     //    }
     
-        // Return results to client
         return ($results);
     }
 
@@ -136,11 +114,8 @@ class Users
         $isUserTrue = false;
         $userTable = $this->userData;
 
-        // Create query object with username and password
-        // $stmt = $userDB->prepare("SELECT id FROM users WHERE userName =:userName AND userPassword = :password");
         $stmt = $userTable->prepare("SELECT userPW, userSalt FROM userTable WHERE userName =:userName");
  
-        // Bind query parameter values
         $stmt->bindValue(':userName', $userName);
 
         $ifUserFound = ($stmt->execute() && $stmt->rowCount() > 0);
@@ -151,10 +126,8 @@ class Users
             $hashPW = sha1( $results['userSalt'] . $PW);
             $isUserTrue = ($hashPW == $results['userPW']);
         }
-
-        // If we successfully execute and return a row, the crednetials are valid
         return $isUserTrue;
     }
 
-}// end class
+}
 ?>

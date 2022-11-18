@@ -1,8 +1,48 @@
 <?php
+   
+   
+   
 
-   // model for PATIENTS
 
-   //call db.php file
+
+   /* THIS PAGE IS NOT IN USE. PLEASE REFER TO patientsBETA.php for the proper patient model. 
+      patientsBETA.php utilizes object oriented programing with classes. This page is a remnant of the old program, and remains for reference purposes. */ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
    include(__DIR__ .'/db.php');
 
    function getPatients() 
