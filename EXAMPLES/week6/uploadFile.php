@@ -15,11 +15,11 @@ if (isset ($_FILES['fileToUpload']))
     $path = getcwd() . DIRECTORY_SEPARATOR . UPLOAD_DIRECTORY;
 
     // Concatenate the uploaded filename onto our the target path
-    $targetFilename = $path . DIRECTORY_SEPARATOR . $_FILES['fileToUpload']['name'];
+    $targetFilename = $path . DIRECTORY_SEPARATOR . $_FILES['fileToUpload'];
 
     // Grab the tempprary name of the file as stored on server
-    $tmpName = $_FILES['fileToUpload']['tmp_name'];
-
+    $tmpName = $_FILES['fileToUpload'];
+    
     // Move the file from the temp locations to target location
     move_uploaded_file($tmpName, $targetFilename);
 }
@@ -34,6 +34,11 @@ if (isset ($_FILES['fileToUpload']))
 //  If $_FILES['fileToUpload'] is set, we were successful in uploading the file
 if (isset ($_FILES['fileToUpload'])) {
     echo "<h2>File successfully uploaded! 😀</h2>";
+    echo $tmpName;
+    echo $targetFilename;
+    echo $path;
+    echo "oops";
+
 }
 
 ?>

@@ -10,18 +10,23 @@
 	
     abstract class Account 
     {
+        // protected properties
         protected $accountId;
         protected $balance;
         protected $startDate;
         
+        
         public function __construct ($id, $bal, $startDt) 
         {
-           // write code here
+            //initialize properties
+            $id="";
+            $bal="";
+            $startDt="";
         } // end constructor
         
         public function deposit($amount) 
         {
-            // write code here
+            
         } // end deposit
 
         abstract public function withdrawal($amount);
