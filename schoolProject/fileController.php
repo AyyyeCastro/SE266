@@ -52,6 +52,8 @@
          echo "</tr>\n";
    }
    
+
+   //
    while ((fgetcsv($schoolFileRef)) !== false) 
    {
       insertSchoolsFromFile($fileName);

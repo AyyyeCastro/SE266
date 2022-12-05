@@ -1,0 +1,67 @@
+<html lang="en">
+<head>
+  <title>View Patient Records</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+      body
+      {
+      margin-left: 100px; margin-top: 100px;
+      font-size: 20px;
+      }
+
+      .character {float: left; margin-right: 10px; border: 10px solid black; padding: 0px 10px 0px 0px; width: 300px;}
+
+      .results {float: left; margin-right: 10px; border: 1px solid black; width: 400px; margin-top: 100px;}
+
+      .button-size {width: 200px; height: 50px;}
+
+      .button-div {margin: 10px 0px 10px 30px;}
+
+      h2, h3 {margin-left: 50px;}
+
+   </style>
+</head>
+<body>
+   <div class="container">
+      <p>Note: Vote results already applied during testing. It doesn't start from 0 for all characters.</p>
+      <p style="font-size: 12px;">Partial code sampled from W3</p><br><br>
+
+      <h1> Disney Voting</h1>
+      <br>
+      <img src="donald.png" alt="donaldo ducko" style="border: 1px solid black;" class="character">
+      <img src="mickey.png" alt="donaldo ducko" style="border: 1px solid black;" class="character">
+      <img src="goofy.png" alt="donaldo ducko" style="border: 1px solid black;"  class="character">
+   </div>
+
+   <div id="poll">
+      <form>
+         <br>
+         <label>Who do you vote for:</label><br>
+         Donald <input type="radio" name="vote" value="0" onclick="getVote(this.value)"><br>
+         Micky <input type="radio" name="vote" value="2" onclick="getVote(this.value)"> <br> 
+         Goofy <input type="radio" name="vote" value="1" onclick="getVote(this.value)"><br>
+     </form>   
+   </div>
+
+   <script> 
+      function getVote(int) {
+      var xmlhttp=new XMLHttpRequest();
+      xmlhttp.onreadystatechange=function() {
+         if (this.readyState==4 && this.status==200) {
+            document.getElementById("poll").innerHTML=this.responseText;
+         }
+      }
+      xmlhttp.open("GET","vote.php?vote="+int,true);
+      xmlhttp.send();
+      }
+   </script>
+
+   
+
+</body>
+</html>
+
