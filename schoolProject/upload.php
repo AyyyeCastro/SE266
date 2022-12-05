@@ -8,16 +8,13 @@
 
    define ("UPLOAD_DIRECTORY", "upload");
 
-   $schoolArray =[];
+
    if (isset ($_FILES['fileToUpload'])) 
    {   
       $path = getcwd() . DIRECTORY_SEPARATOR . UPLOAD_DIRECTORY;
       $targetFilename = $path . DIRECTORY_SEPARATOR . $_FILES['fileToUpload']['name'];
       $tmpName = $_FILES['fileToUpload']['tmp_name'];
       move_uploaded_file($tmpName, $targetFilename);
-      
-      //$schoolArray = insertSchoolsFromFile($fileName);
-      insertSchoolsFromFile($fileName);
    }
 
 
@@ -49,7 +46,7 @@
             </p>
 
             <form action="upload.php" method="post" enctype="multipart/form-data">
-               <input type="file" name="fileToUpload">
+               <input type="file" name="fileToUpload" accept=".csv" required>
                <input type="submit" value="Upload">
             </form> 
 

@@ -51,6 +51,15 @@
          }
          echo "</tr>\n";
    }
+   
+   while ((fgetcsv($schoolFileRef)) !== false) 
+   {
+      insertSchoolsFromFile($fileName);
+   }
+
+
+
+
    fclose($schoolFileRef);
    echo "\n</table></body></html>";
 ?>

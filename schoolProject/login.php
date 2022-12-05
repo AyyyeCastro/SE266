@@ -42,12 +42,12 @@
 ?>
 
 <div class="container">
-    <h1>Castro Patient Database</h1>
+    <h1>Castro School Lookup</h1>
     <div id="mainDiv">
         <form method="post" action="login.php">
            
             <div class="rowContainer">
-                <h3>Employee Login</h3>
+                <h3>Instructor Login</h3>
             </div>
             <div class="rowContainer">
                 <div class="col1">User Name:</div>
