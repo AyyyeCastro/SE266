@@ -5,10 +5,11 @@
     include_once $root."/include/header.php";
     include_once $root."/model/userSearch.php";
 
-    if (!isUserLoggedIn())
-    {
-        header ('Location: login.php');
+    if(!isset($_SESSION["isLoggedIn"]))
+    { 
+      header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
     }
+
     
     $configFile = $root.'/model/dbconfig.ini';
     try 
@@ -22,7 +23,6 @@
     }   
 
     $listCollection =[];
-    $joinTables=[];
     $deleteList=[];
     if (isPostRequest()) 
     {
@@ -46,13 +46,11 @@
         else
         {
             $listCollection = $newUserSearchClass->getAllCollections();
-            $joinTables = $newUserSearchClass->getAllCounts();
         }
     }
     else
     {
         $listCollection = $newUserSearchClass->getAllCollections();
-        $joinTables = $newUserSearchClass->getAllCounts();
     }
 
     if (isPostRequest()) 
@@ -73,29 +71,24 @@
 <!-- BEGIN HTML -->
 <html lang="en">
 <head>
-   <title>Insert Collection</title>
+   <title>Search Collection</title>
    <meta charset="utf-8">
    <meta name="viewport" content="min-width=device-min-width, initial-scale=1">
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=DotGothic16&family=IBM+Plex+Sans&family=Kanit:ital,wght@1,700&family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
    <style>
       
         body{
             /* fallback for old browsers */
             min-height: 100vh !important;
-            color: white;
-            font-size: 15px;
-            font-family: 'Chakra Petch', sans-serif;
+            color: Green;
+            font-size: 20px;
+            font-family: 'DotGothic16', sans-serif !important;
 
-            background: #213461;
-            background-image: url('https://static.vecteezy.com/system/resources/previews/002/915/061/original/blue-abstract-background-free-vector.jpg');
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            background-size: cover;
-            -o-background-size: cover; 
+            background: black !important;
         }
         input[type="text"], textarea {
             background-color : white; 
@@ -106,19 +99,30 @@
         }
         a{
             text-decoration: none;
-            color: gray;
+            color: Green;
         }
         .insert{
             background-color: white;
-            color: gray;
+            color: white;
             font-size: 16px;
         }
 
         table{
             color: black;
             background-color: white;
+            opacity: 85%;
+            width: 100% !important;
+            border-collapse: collapse;
+            border: 5px dotted green;
+        }
+        footer{
+            color: white;
+        }
+
+        table{
+            color: black;
+            background-color: white;
             opacity: 95%;
-            table-layout: fixed;
             m-width: 100vw;
             border-collapse: collapse;
             border: 2px solid black;
@@ -138,31 +142,37 @@
     <div class="container">
         <!-- title -->
         <h1>Search Your Collections...</h1><br><hr>
+            <?php 
+                if (isPostRequest()){
+                    if (isset($_POST["search"])){
+                    echo "<h3>Filters applied:</h3>". "Name: <div style='background-color: gray; color: white;'> ". $cName ."</div> Publisher:<div style='background-color: gray; color: white;'>". $cPub ."</div>  Condition:  <div style='background-color: gray; color: white;'>". $cCond ."</div>  Cost:  <div style='background-color: gray; color: white;'>". $cCost ."</div>  Year:  <div style='background-color: gray; color: white;'>". $cYear ."</div><hr><br/>"; 
+                    }
+                }?>
         <!-- Input values & labels -->
         <div class="row">
             <div class="col-xs-4">
                 <div class="col1">Name:</div>
-                <div class="col2"><input type="text" name="inputName"></div> 
+                <div class="col2"><input type="text" name="inputName" value=<?php if (isPostRequest()){if (isset($_POST["search"])){echo $cName;}} ?>></div> 
             </div>
 
             <div class="col-xs-4">
                 <div class="col1">Publisher:</div>
-                <div class="col2"><input type="text" name="inputPub"></div> 
+                <div class="col2"><input type="text" name="inputPub" value=<?php if (isPostRequest()){if (isset($_POST["search"])){echo $cPub;}} ?>></div> 
             </div>
 
             <div class="col-xs-4">
                 <div class="col1">Condition:</div>
-                <div class="col2"><input type="text" name="inputCond"></div><br>
+                <div class="col2"><input type="text" name="inputCond" value=<?php if (isPostRequest()){if (isset($_POST["search"])){echo $cCond;}} ?>></div><br>
             </div>
 
             <div class="col-xs-4">
                 <div class="col1">Cost:</div>
-                <div class="col2"><input type="text" name="inputCost"></div> 
+                <div class="col2"><input type="text" name="inputCost" value=<?php if (isPostRequest()){if (isset($_POST["search"])){echo $cCost;}} ?>></div> 
             </div>
 
             <div class="col-xs-4">
                 <div class="col1">Year:</div>
-                <div class="col2"><input type="text" name="inputYear"></div> 
+                <div class="col2"><input type="text" name="inputYear" value=<?php if (isPostRequest()){if (isset($_POST["search"])){echo $cYear;}} ?>></div> 
             </div>
         </div>
         <!-- Buttons -->
@@ -174,15 +184,6 @@
                 <a href="./insertCollection.php"><input type="button" name="refresh" value="Insert New Collection" class="btn btn-primary"></a>
                 <a href="./viewCollections.php"><input type="button" name="refresh" value="Back to View" class="btn btn-success"></a>
             </div> 
-            <hr>
-            <?php 
-                if (isPostRequest()) 
-                {
-                    if (isset($_POST["search"]))
-                    {
-                    echo "<h4>Filters applied:</h4>". "<b>Name:</b>&nbsp&nbsp&nbsp". $cName ."&nbsp&nbsp&nbsp <b>Publisher:</b>&nbsp&nbsp&nbsp". $cPub ."<b>&nbsp&nbsp&nbsp Condition:<b> &nbsp&nbsp&nbsp". $cCond ."&nbsp&nbsp&nbsp <b>Cost:</b> &nbsp&nbsp&nbsp". $cCost ."&nbsp&nbsp&nbsp <b>Year:</b> &nbsp&nbsp&nbsp". $cYear; 
-                    }
-                }?>
         </div>
     </form>
     <br>

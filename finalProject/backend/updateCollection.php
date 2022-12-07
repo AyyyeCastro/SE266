@@ -6,6 +6,12 @@
    include_once $root.'/model/collectionBE.php';
 
 
+   if(!isset($_SESSION["isLoggedIn"]))
+   { 
+     header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
+   }
+
+
    $configFile = $root.'/model/dbconfig.ini';
    try 
    {
@@ -60,29 +66,24 @@
 <!-- BEGIN HTML -->
 <html lang="en">
 <head>
-   <title>Insert Collection</title>
+   <title>Update Collection.</title>
    <meta charset="utf-8">
    <meta name="viewport" content="min-width=device-min-width, initial-scale=1">
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=DotGothic16&family=IBM+Plex+Sans&family=Kanit:ital,wght@1,700&family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
    <style>
       
         body{
             /* fallback for old browsers */
             min-height: 100vh !important;
-            color: white;
-            font-size: 15px;
-            font-family: 'Chakra Petch', sans-serif;
+            color: Green;
+            font-size: 20px;
+            font-family: 'DotGothic16', sans-serif !important;
 
-            background: #213461;
-            background-image: url('https://static.vecteezy.com/system/resources/previews/002/915/061/original/blue-abstract-background-free-vector.jpg');
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            background-size: cover;
-            -o-background-size: cover; 
+            background: black !important;
         }
         input[type="text"], textarea {
             background-color : white; 
@@ -93,12 +94,24 @@
         }
         a{
             text-decoration: none;
-            color: white;
+            color: Green;
         }
         .insert{
             background-color: white;
-            color: gray;
+            color: white;
             font-size: 16px;
+        }
+
+        table{
+            color: black;
+            background-color: white;
+            opacity: 88%;
+            width: 100% !important;
+            border-collapse: collapse;
+            border: 5px dotted green;
+        }
+        footer{
+            color: white;
         }
 
         table{
@@ -123,7 +136,7 @@
 <body>
 <div class="container">
 
-   <h1>Update Collection</h1><br>
+   <h1>Updating a Collection...</h1><br>
 
 
    <form class="form-horizontal" action="updateCollection.php" method="POST">

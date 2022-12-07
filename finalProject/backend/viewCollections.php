@@ -1,15 +1,17 @@
 <?php
-
+    // reference files
     include_once "root.php";
     include_once $root."/include/functions.php";
     include_once $root."/include/header.php";
     include_once $root."/model/userSearch.php";
 
+    //if not logged in, kick them
     if (!isUserLoggedIn())
     {
-        header ('Location: login.php');
+        header ('Location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php');
     }
-    
+
+    // set new classes to call functions
     $configFile = $root.'/model/dbconfig.ini';
     try 
     {
@@ -21,10 +23,9 @@
         echo "<h2>" . $error->getMessage() . "</h2>";
     }   
 
+    // define arrays to hold info
     $listCollection =[];
-    $joinTables=[];
     $joinTables2=[];
-    $deleteList=[];
     if (isPostRequest()) 
     {
       $listCollection = $newUserSearchClass->getAllCollections();
@@ -39,19 +40,8 @@
         $joinTables2 = $newUserSearchClass->joinTables();
     }
 
-    if (isPostRequest()) 
-    {
-        if (isset($_POST["delete"]))
-        {
-            $id = filter_input(INPUT_POST, 'p_id');
-            $deleteList = $newCollectionClass->deleteCollection($id);
-            header('Location: searchCollections.php');
-        }  
-    }
 ?>
 <!-- END PHP -->
-
-
 
 <!-- BEGIN HTML -->
 <html lang="en">
@@ -62,23 +52,18 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=DotGothic16&family=IBM+Plex+Sans&family=Kanit:ital,wght@1,700&family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
    <style>
       
         body{
             /* fallback for old browsers */
             min-height: 100vh !important;
-            color: white;
-            font-size: 15px;
-            font-family: 'Chakra Petch', sans-serif;
+            color: Green;
+            font-size: 20px;
+            font-family: 'DotGothic16', sans-serif !important;
 
-            background: #213461;
-            background-image: url('https://static.vecteezy.com/system/resources/previews/002/915/061/original/blue-abstract-background-free-vector.jpg');
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            background-size: cover;
-            -o-background-size: cover; 
+            background: black !important;
         }
         input[type="text"], textarea {
             background-color : white; 
@@ -89,21 +74,21 @@
         }
         a{
             text-decoration: none;
-            color: gray;
+            color: Green;
         }
         .insert{
             background-color: white;
-            color: gray;
+            color: white;
             font-size: 16px;
         }
 
         table{
             color: black;
             background-color: white;
-            opacity: 95%;
+            opacity: 88%;
             width: 100% !important;
             border-collapse: collapse;
-            border: 2px solid black;
+            border: 5px dotted green;
         }
         footer{
             color: white;
@@ -125,7 +110,7 @@
         <div class="rowContainer">
             <div class="col1"><br></div>
             <div class="col2">
-                <a href="./searchCollections.php"><input type="button" name="refresh" value="Manage Inventory" class="btn btn-warning"></a>
+                <a href="./searchCollections.php"><input type="button" name="refresh" value="Edit Collections" class="btn btn-warning"></a>
             </div> 
         </div>
     </form>

@@ -3,7 +3,6 @@
     session_start();
     include_once __DIR__ . '/include/functions.php';
     include_once __DIR__ . '/model/userController.php';
-    include_once __DIR__ . '/include/header.php';
 
     // login as false
     $_SESSION['isLoggedIn'] = false;
@@ -29,11 +28,11 @@
         if ($userDatabase->isUserTrue($userName, $PW)) 
         {
             $_SESSION['isLoggedIn'] = true;
-            header ('Location: backend/searchCollections.php');
+            header ('Location: backend/viewCollections.php');
         } 
         else 
         {
-           $message = "Incorrect login credentials. Please try again.";
+           $message = "Incorrect login credentials. Please try again. Hint: Quack quack";
         }
     }
     
@@ -48,7 +47,7 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=IBM+Plex+Sans&family=Kanit:ital,wght@1,700&family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=DotGothic16&family=IBM+Plex+Sans&family=Kanit:ital,wght@1,700&family=Press+Start+2P&family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
    <style>
       
@@ -57,15 +56,7 @@
             min-height: 100vh !important;
             color: black;
             font-size: 15px;
-            font-family: 'Chakra Petch', sans-serif;
-
-            background: #213461;
-            background-image: url('https://static.vecteezy.com/system/resources/previews/002/915/061/original/blue-abstract-background-free-vector.jpg');
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            background-size: cover;
-            -o-background-size: cover; 
-            cursor: grab;
+            font-family: 'DotGothic16', sans-serif;
         }
         input[type="text"], textarea {
             background-color : white; 
@@ -90,32 +81,39 @@
             font-size: 16px;
         }
 
-        table{
-            color: black;
-            background-color: white;
-            opacity: 95%;
-            width: 100% !important;
-            border-collapse: collapse;
-            border: 2px solid black;
-        }
-        footer{
-            color: white;
+        #myVideo {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
         }
 
-        th,
-        td {
-            padding: 5px;
+        /* Add some content at the bottom of the video/page */
+        .content {
+        position: fixed;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        color: #f1f1f1;
+        max-width: 50%;
+        padding: 20px;
         }
+
    </style>
 </head>
 <body>
 <div class="se-pre-con"></div>
 <div class="container">
     <div id="mainDiv">
+
+        <video autoplay muted loop id="myVideo">
+            <source src="./style/vintage.mp4" type="video/mp4">
+        </video>
+
         <form method="post" action="login.php">
-           
+        <div class="content">
             <div class="rowContainer">
-                <h3 class="custom-h">Login to Access Collection...</h3><hr>
+                <h3 class="custom-h">Login to Access Collection...</h3>
             </div>
             <div class="rowContainer">
                 <div class="col1"><p class="custom-text">User Name:</p></div>
@@ -129,19 +127,20 @@
                 <div class="col1">&nbsp;</div>
                 <div class="col2"><input type="submit" name="login" value="Login" class="btn btn-warning"></div> 
             </div>
-        </form>
+        </form><br>
         
         <?php 
             if ($message)
             {   ?>
-                <div class="custom-text" style="padding: 15px; margin-top: 15px; max-width: 20vw; font: 12px; background-color: red;  border: solid 4px black; font-family: 'Roboto Mono', monospace;"> 
+                <div class="custom-text" style="padding: 15px; margin-top: 15px; max-width: 50vw; background-color: red; border: dotted 4px darkred; font-family: 'Roboto Mono', monospace;"> 
             <?php echo $message; ?>
             </div>
             <?php } ?>
+            <br>
+        </div>
     </div>
 </body>
 </html>
 
-<?php     include_once __DIR__ . '/include/footer.php'; ?>
 
-   
+    

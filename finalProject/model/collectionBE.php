@@ -157,6 +157,7 @@
          return ($results);
       }
 
+      // Merge the two tables together, via CollectionID primary + foreign key, and have CollectionName display with the Amount Owned.
       public function joinTables() 
       {
          $results = [];                  

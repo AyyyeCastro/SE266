@@ -7,16 +7,14 @@ class userSearchClass extends collectionClass
 {
    public function findOneCollection($cName, $cPub, $cCond, $cCost, $cYear) 
    {
-       $results = array();                  // Empty results table 
-       $binds = array();                    // Empty bind array
-       $isFirstClause = true;               // Next WHERE clause is first
-       $schoolDB = $this->getDatabaseRef();   // Alias for database PDO
+       $results = array();                  
+       $binds = array();                    
+       $isFirstClause = true;              
+       $schoolDB = $this->getDatabaseRef();   
 
-       // Here is the base SQL cCondment to select all schools
+
        $sql = "SELECT collectionID, collectionName, collectionPub, collectionCond, collectionCost, collectionDate FROM collectionstable ";
 
-        // Now we check for any parameters and build the WHERE clause filters
-        // First, school cName:
         if (isset($cName)) 
         {
             if ($isFirstClause)
@@ -32,7 +30,7 @@ class userSearchClass extends collectionClass
             $binds['cName'] = '%'.$cName.'%';
         }
       
-        // Next, cPub cName:
+
         if (isset($cPub)) 
         {
             if ($isFirstClause)
@@ -48,7 +46,6 @@ class userSearchClass extends collectionClass
            $binds['cPub'] = '%'.$cPub.'%';
        }
 
-        // Finally, cCond:
         if (isset($cCond)) 
         {
             if ($isFirstClause)
@@ -94,23 +91,17 @@ class userSearchClass extends collectionClass
          $binds['cYear'] = '%'.$cYear.'%';
      }
 
-    
-
-        // Let's sort whatever records come back
         $sql .= " ORDER BY collectionDate";
        
-        // Prepare the SQL cCondment object
         $stmt = $schoolDB->prepare($sql);
       
-       // Execute the query and fetch the results into a 
-       // table of associative arrays
         if ($stmt->execute($binds) && $stmt->rowCount() > 0) {
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        // Return the results
+
         return $results;
-   }    // end getSelected Schools
+   }   
 }
 
 

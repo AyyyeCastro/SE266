@@ -9,7 +9,11 @@
 
   if(!isset($_SESSION["isLoggedIn"]))
   { 
-    header("location: login.php"); 
+    header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
+  }
+  if (!isUserLoggedIn())
+  {
+      header ('Location: login.php');
   }
 
 
@@ -48,23 +52,18 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=DotGothic16&family=IBM+Plex+Sans&family=Kanit:ital,wght@1,700&family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
    <style>
       
         body{
             /* fallback for old browsers */
             min-height: 100vh !important;
-            color: white;
-            font-size: 15px;
-            font-family: 'Chakra Petch', sans-serif;
+            color: Green;
+            font-size: 20px;
+            font-family: 'DotGothic16', sans-serif !important;
 
-            background: #213461;
-            background-image: url('https://static.vecteezy.com/system/resources/previews/002/915/061/original/blue-abstract-background-free-vector.jpg');
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            background-size: cover;
-            -o-background-size: cover; 
+            background: black !important;
         }
         input[type="text"], textarea {
             background-color : white; 
@@ -78,11 +77,22 @@
             color: white;
         }
         .insert{
-            background-color: white;
-            color: gray;
+            background-color: darkblue;
+            color: black;
             font-size: 16px;
         }
 
+        table{
+            color: black;
+            background-color: white;
+            opacity: 88%;
+            width: 100% !important;
+            border-collapse: collapse;
+            border: 5px dotted green;
+        }
+        footer{
+            color: white;
+        }
         table{
             color: black;
             background-color: white;
@@ -100,6 +110,13 @@
         td {
             padding: 5px;
         }
+
+        .custom-fText{
+         background-color: gray;
+         color: white;
+         padding: 5px;
+         border: 4px dotted green;
+        }
    </style>
 </head>
 <body>
@@ -107,7 +124,7 @@
 
    <form class="form-horizontal" action="insertCollection.php" method="post">
       
-   <h2>Create a New Collection</h2>
+   <h2>Creating a Collection...</h2>
    <br><br><br>
 
    <div class="form-group">
@@ -119,35 +136,35 @@
    <br>
       
    <div class="form-group">
-      <label class="control-label col-sm-2" for="inputName">Description:</label>
+      <label class="control-label col-sm-2" for="inputName"><p class="custom-fText">Description:</p></label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="inputName" placeholder="Enter description" name="inputName">
       </div>
    </div>
 
    <div class="form-group">
-      <label class="control-label col-sm-2" for="inputPub">Publisher</label>
+      <label class="control-label col-sm-2" for="inputPub"><p class="custom-fText">Publisher</p></label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="inputPub" placeholder="Enter Publisher" name="inputPub">
       </div>
    </div> 
 
    <div class="form-group">
-      <label class="control-label col-sm-2" for="inputCond">Condition</label>
+      <label class="control-label col-sm-2" for="inputCond"><p class="custom-fText">Condition</p></label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="inputCond" placeholder="Condition bought (used, new, etc)" name="inputCond">
       </div>
    </div> 
 
    <div class="form-group">
-      <label class="control-label col-sm-2" for="inputCost">Cost</label>
+      <label class="control-label col-sm-2" for="inputCost"><p class="custom-fText">Cost</p></label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="inputCost" placeholder="Amount Paid $" name="inputCost">
       </div>
    </div> 
 
    <div class="form-group">
-      <label class="control-label col-sm-2" for="inputYear">Date Purchased</label>
+      <label class="control-label col-sm-2" for="inputYear"><p class="custom-fText">Date Purchased</p></label>
       <div class="col-sm-10">
         <input type="date" class="form-control" id="inputYear" placeholder="" name="inputYear">
       </div>
