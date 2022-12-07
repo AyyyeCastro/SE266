@@ -10,21 +10,42 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=IBM+Plex+Sans&family=Kanit:ital,wght@1,700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+      .navbar-custom {
+        height: 2vh !important;
+        background-color: #101B33;
+      }
+      .subtext{
+        font-size: 15px !important;
+      }
+      .navbar-brand
+      {
+        font-family: 'Kanit', sans-serif;
+        margin-top: -10px !important;
+        color: white !important;
+        font-size: 25px !important;
+        padding: 25px !important;
+      }
+      a{
+        text-decoration: none;
+      }
+    </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar  navbar-custom">
     <div class="container-fluid">
       <div class="navbar-header">
-        <span class="navbar-brand">Geek Records</span>
+        <span class="navbar-brand nav-text">Geek Records <p class="subtext"> since 1978 </p></span>
       </div>
       <?php
         if (isUserLoggedIn()) 
         { ?>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="logoff.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                <li><a href="/SE266/REPO-Folder/SE266/finalProject/logoff.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
             <?php
         } 
@@ -32,5 +53,7 @@
       ?>
     </div>
   </nav>
-  <div class="container">
+
+
+  
 

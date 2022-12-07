@@ -94,11 +94,13 @@ class userSearchClass extends collectionClass
          $binds['cYear'] = '%'.$cYear.'%';
      }
 
-       // Let's sort whatever records come back
-       $sql .= " ORDER BY collectionDate";
+    
+
+        // Let's sort whatever records come back
+        $sql .= " ORDER BY collectionDate";
        
-       // Prepare the SQL cCondment object
-       $stmt = $schoolDB->prepare($sql);
+        // Prepare the SQL cCondment object
+        $stmt = $schoolDB->prepare($sql);
       
        // Execute the query and fetch the results into a 
        // table of associative arrays
@@ -111,4 +113,4 @@ class userSearchClass extends collectionClass
    }    // end getSelected Schools
 }
 
-?>
+
