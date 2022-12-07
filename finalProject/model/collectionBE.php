@@ -143,19 +143,6 @@
          return ($results);
       }
 
-      public function getAllCounts() 
-      {
-         $results = [];                  
-         $collectionTable = $this->collectionData;
-
-         $stmt = $collectionTable->prepare("SELECT countOwned FROM collectionCount ORDER BY collectionID"); 
-         
-         if ($stmt->execute() && $stmt->rowCount() >0){
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-         }       
-
-         return ($results);
-      }
 
       // Merge the two tables together, via CollectionID primary + foreign key, and have CollectionName display with the Amount Owned.
       public function joinTables() 
@@ -165,7 +152,7 @@
 
          $stmt = $collectionTable->prepare("SELECT collectionstable.collectionName, collectioncount.countOwned FROM collectionstable
          LEFT JOIN collectioncount ON collectionstable.collectionID=collectioncount.collectionID
-         ORDER BY collectionstable.collectionName"); 
+         ORDER BY collectioncount.collectionID"); 
          
          if ($stmt->execute() && $stmt->rowCount() >0){
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -173,6 +160,45 @@
 
          return ($results);
       }
+
+      //This should pull JUST the countOwned (amount of a product owned) as paired with its ID from collectionID in collectionsTable.
+      public function getCountDetails($id) 
+      {
+         $results = [];                
+         $collectionTable = $this->collectionData;
+      
+         $stmt = $collectionTable->prepare("SELECT collectionID, countOwned FROM collectionCount WHERE collectionID=:id");
+      
+         $stmt->bindValue(':id', $id);
+         
+               
+         if ( $stmt->execute() && $stmt->rowCount() > 0 ) 
+         {
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);                       
+         }
+      
+         return ($results);
+      }
+
+      // update a patient's records, where the ID is a match.
+      public function updateACount ($cCount, $id)
+      {
+         $isUpdated = false;
+         $collectionTable = $this->collectionData;
+      
+         $stmt = $collectionTable->prepare("UPDATE collectionCount SET countOwned = :CCount WHERE collectionID=:id");
+               
+         $bindParameters = array
+         (
+            ":CCount" => $cCount,
+            ":id"=>$id
+         );
+      
+         $isUpdated = ($stmt->execute($bindParameters) && $stmt->rowCount() > 0);
+      
+         return ($isUpdated);
+      }
+
 
 
       /**********************************************************/

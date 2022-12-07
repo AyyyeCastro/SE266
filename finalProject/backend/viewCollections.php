@@ -29,14 +29,12 @@
     if (isPostRequest()) 
     {
       $listCollection = $newUserSearchClass->getAllCollections();
-      $joinTables = $newUserSearchClass->getAllCounts();
       $joinTables2 = $newUserSearchClass->joinTables();
    
     }
     else
     {
         $listCollection = $newUserSearchClass->getAllCollections();
-        $joinTables = $newUserSearchClass->getAllCounts();
         $joinTables2 = $newUserSearchClass->joinTables();
     }
 
@@ -111,6 +109,8 @@
             <div class="col1"><br></div>
             <div class="col2">
                 <a href="./searchCollections.php"><input type="button" name="refresh" value="Edit Collections" class="btn btn-warning"></a>
+                <!-- Insert a new collection -->
+                <a href="./insertCollection.php"><input type="button" name="refresh" value="Insert New Collection" class="btn btn-primary"></a>
             </div> 
         </div>
     </form>

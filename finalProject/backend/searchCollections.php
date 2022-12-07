@@ -1,16 +1,17 @@
 <?php
-
+    //reference the files
     include_once "root.php";
     include_once $root."/include/functions.php";
     include_once $root."/include/header.php";
     include_once $root."/model/userSearch.php";
 
+    // if not logged in, have them sign in.
     if(!isset($_SESSION["isLoggedIn"]))
     { 
       header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
     }
 
-    
+    // call the class & db connection
     $configFile = $root.'/model/dbconfig.ini';
     try 
     {
@@ -22,12 +23,15 @@
         echo "<h2>" . $error->getMessage() . "</h2>";
     }   
 
+    //Arrays to store info 
     $listCollection =[];
     $deleteList=[];
     if (isPostRequest()) 
     {
+        // if they clicked the search button ->
         if (isset($_POST["search"]))
         {
+            // declare the variables to nothing first...
             $cName="";
             $cPub="";
             $cCond="";
@@ -35,24 +39,30 @@
             $cYear="";
             $cCount="";
 
+
+            //... have the user's input (from form below) allign with the declared variables. 
             $cName = $_POST['inputName'];
             $cPub = $_POST['inputPub'];
             $cCond = $_POST['inputCond'];
             $cCost = $_POST['inputCost'];
             $cYear = $_POST['inputYear'];
 
+            // have the array (declared above) store the info, and send it to the findOneCollection function.
             $listCollection = $newUserSearchClass->findOneCollection($cName, $cPub, $cCond, $cCost, $cYear);
         }
         else
         {
+            //Otherwise gather all records.
             $listCollection = $newUserSearchClass->getAllCollections();
         }
     }
     else
     {
+        //Otherwise gather all records.
         $listCollection = $newUserSearchClass->getAllCollections();
     }
 
+    // if they clicked the delete button, delete the record w/ delete function.
     if (isPostRequest()) 
     {
         if (isset($_POST["delete"]))
@@ -66,8 +76,6 @@
 <!-- END PHP -->
 
 
-
-
 <!-- BEGIN HTML -->
 <html lang="en">
 <head>
@@ -77,37 +85,45 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+   <!-- import Google Fonts -->
    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;1,700&family=DotGothic16&family=IBM+Plex+Sans&family=Kanit:ital,wght@1,700&family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
+   <!-- import Font Awesome Icons -->
    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+   <!-- Start css -->
    <style>
-      
-        body{
+        body
+        {
             /* fallback for old browsers */
             min-height: 100vh !important;
             color: Green;
             font-size: 20px;
             font-family: 'DotGothic16', sans-serif !important;
-
             background: black !important;
         }
-        input[type="text"], textarea {
+        /* changes the input text/form styling */
+        input[type="text"],textarea 
+        {
             background-color : white; 
             color: black;
         }
-        h1{
+        h1
+        {
             font-size: 35px;
         }
-        a{
+        a
+        {
             text-decoration: none;
             color: Green;
         }
-        .insert{
+        /* a class for some of the button */
+        .insert
+        {
             background-color: white;
             color: white;
             font-size: 16px;
         }
-
-        table{
+        table
+        {
             color: black;
             background-color: white;
             opacity: 85%;
@@ -115,11 +131,12 @@
             border-collapse: collapse;
             border: 5px dotted green;
         }
-        footer{
+        footer
+        {
             color: white;
         }
-
-        table{
+        table
+        {
             color: black;
             background-color: white;
             opacity: 95%;
@@ -127,31 +144,40 @@
             border-collapse: collapse;
             border: 2px solid black;
         }
-        footer{
+        footer
+        {
             color: white;
         }
-
-        th,
-        td {
+        th,td 
+        {
             padding: 5px;
         }
    </style>
+    <!-- END css -->
 </head>
+<!-- begin body -->
 <body>
     <form method="post" action="searchCollections.php">
     <div class="container">
         <!-- title -->
         <h1>Search Your Collections...</h1><br><hr>
+
+        <!-- Php with HTML in it. This will gather the users input, and then relay their search valus back to them -->
             <?php 
                 if (isPostRequest()){
                     if (isset($_POST["search"])){
                     echo "<h3>Filters applied:</h3>". "Name: <div style='background-color: gray; color: white;'> ". $cName ."</div> Publisher:<div style='background-color: gray; color: white;'>". $cPub ."</div>  Condition:  <div style='background-color: gray; color: white;'>". $cCond ."</div>  Cost:  <div style='background-color: gray; color: white;'>". $cCost ."</div>  Year:  <div style='background-color: gray; color: white;'>". $cYear ."</div><hr><br/>"; 
                     }
-                }?>
-        <!-- Input values & labels -->
+                }
+            ?>
+
+        <!-- Input values & labels, which get sent to the variables we declared in PHP -->
         <div class="row">
             <div class="col-xs-4">
                 <div class="col1">Name:</div>
+                <!-- For every user/search input, there is an if statement tied to the value. If the user input something for it's criteria, 
+                it will HOLD the value into the input box,  until the user chooses to reset the filter. This is ANOTHER way of displaying 
+                to the user what they're filtering. --> 
                 <div class="col2"><input type="text" name="inputName" value=<?php if (isPostRequest()){if (isset($_POST["search"])){echo $cName;}} ?>></div> 
             </div>
 
@@ -166,12 +192,12 @@
             </div>
 
             <div class="col-xs-4">
-                <div class="col1">Cost:</div>
+                <div class="col1">Paid:</div>
                 <div class="col2"><input type="text" name="inputCost" value=<?php if (isPostRequest()){if (isset($_POST["search"])){echo $cCost;}} ?>></div> 
             </div>
 
             <div class="col-xs-4">
-                <div class="col1">Year:</div>
+                <div class="col1">Bought On:</div>
                 <div class="col2"><input type="text" name="inputYear" value=<?php if (isPostRequest()){if (isset($_POST["search"])){echo $cYear;}} ?>></div> 
             </div>
         </div>
@@ -179,27 +205,33 @@
         <div class="rowContainer"><br>
             <div class="col1"></div>
             <div class="col2">
+                <!-- Search with criteria entered -->
                 <input type="submit" name="search" value="Search" class="btn btn-primary"> 
+                <!-- Reset the search filter -->
                 <a href="./searchCollections.php"><input type="button" name="refresh" value="Reset Filter" class="btn btn-success"></a>
+                <!-- Insert a new collection -->
                 <a href="./insertCollection.php"><input type="button" name="refresh" value="Insert New Collection" class="btn btn-primary"></a>
+                <!-- Go back to the simple viewing page -->
                 <a href="./viewCollections.php"><input type="button" name="refresh" value="Back to View" class="btn btn-success"></a>
             </div> 
         </div>
     </form>
     <br>
+    <!-- BEGIN TABLE -->
     <table class="table table-hover">
         <thead>
             <tr>
                 <th></th>
                 <th>Description</th>
                 <th>Publisher</th>
-                <th>Purchase Condition</th>
-                <th>Cost</th>
-                <th>Released</th>
+                <th>Condition</th>
+                <th>Paid</th>
+                <th>Bought On</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
+            <!-- For every value stored in the array we declared in the PHP section -->
         <?php foreach ($listCollection as $row): ?>
             <tr>
                 <td>
@@ -208,6 +240,7 @@
                         <input type="submit" class="btn btn-warning" name="delete" value="delete" onclick="return confirm('Are you sure you want to delete this collection?')"> 
                     </form>   
                 </td>
+                <!-- Display it's value -->
                 <td><?php echo $row['collectionName']; ?></td>
                 <td><?php echo $row['collectionPub']; ?></td> 
                 <td><?php echo $row['collectionCond']; ?></td>
@@ -223,11 +256,15 @@
                 </td>
             </tr>
         <?php endforeach; ?>
+        <!-- END for-loop -->
         </tbody>
     </table>
+    <!-- END TABLE -->
 </body>
+ <!-- END BODY -->
 </html>
 
+<!-- CALL THE FOOTER -->
 <?php
     include_once $root."/include/footer.php";
 ?>

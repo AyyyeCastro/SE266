@@ -91,7 +91,7 @@ class userSearchClass extends collectionClass
          $binds['cYear'] = '%'.$cYear.'%';
      }
 
-        $sql .= " ORDER BY collectionDate";
+        $sql .= " ORDER BY collectionID";
        
         $stmt = $schoolDB->prepare($sql);
       

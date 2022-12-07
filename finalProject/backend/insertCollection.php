@@ -6,7 +6,7 @@
   include_once $root."/include/header.php";
   include_once $root.'/model/collectionBE.php';
 
-
+  //if not logged in, send the to login.
   if(!isset($_SESSION["isLoggedIn"]))
   { 
     header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
@@ -16,7 +16,7 @@
       header ('Location: login.php');
   }
 
-
+  // declare new class & config.
    $configFile = $root.'/model/dbconfig.ini';
    try 
    {
@@ -27,7 +27,7 @@
       echo "<h2>" . $error->getMessage() . "</h2>";
    }   
 
-
+   // array to store values, and variables that are getting sent their inputed values. 
   $listCollections =[];
   if (isPostRequest()) {
     $cName = filter_input(INPUT_POST, 'inputName');
@@ -35,8 +35,11 @@
     $cCond = filter_input(INPUT_POST, 'inputCond');
     $cCost = filter_input(INPUT_POST, 'inputCost');
     $cYear = filter_input(INPUT_POST, 'inputYear');
+    //send it to the insertCollection function.
     $listCollections = $newCollectionClass->insertCollection($cName, $cPub, $cCond, $cCost, $cYear);
+    
 
+    //once done, redicrect back there.
     header('Location: searchCollections.php');
   }
 

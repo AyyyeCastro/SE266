@@ -5,47 +5,66 @@
    include_once $root."/include/header.php";
    include_once $root.'/model/collectionBE.php';
 
+  // if not logged in, send them back.
+  if(!isset($_SESSION["isLoggedIn"]))
+  { 
+    header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
+  }
 
-   if(!isset($_SESSION["isLoggedIn"]))
-   { 
-     header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
-   }
 
-
-   $configFile = $root.'/model/dbconfig.ini';
-   try 
-   {
-      $newCollectionClass = new collectionClass($configFile);
-   } 
-   catch ( Exception $error ) 
-   {
-      echo "<h2>" . $error->getMessage() . "</h2>";
-   }   
+  //set new class & config
+  $configFile = $root.'/model/dbconfig.ini';
+  try 
+  {
+    $newCollectionClass = new collectionClass($configFile);
+  } 
+  catch ( Exception $error ) 
+  {
+    echo "<h2>" . $error->getMessage() . "</h2>";
+  }   
 
 
   $listCollections =[];
+  $joinTables=[];
 
-   // if via get method 
-   if(isset($_GET['action'])){
-      $action = filter_input(INPUT_GET, 'action');
-      $id = filter_input(INPUT_GET, 'p_id');
-      if($action =="update"){
-         $listCollections = $newCollectionClass->getColDetails($id);
-         $row= $listCollections;
-         $cName=$row['collectionName'];
-         $cPub=$row['collectionPub'];
-         $cCond=$row['collectionCond'];
-         $cCost=$row['collectionCost'];
-         $cYear = $row['collectionDate'];
-      }else{
-         $cName ="";
-         $cPub  ="";
-         $cCond ="";
-         $cCost ="";
-         $cYear ="";
-      }
+  //IF VIA $_GET
+  if(isset($_GET['action']))
+  {
+    // declare the action variable, and store it with the action value.
+    $action = filter_input(INPUT_GET, 'action');
+    // Declare the $id variable and it's value. p_id is related to it's value stored in the HTML below.
+    $id = filter_input(INPUT_GET, 'p_id');
 
-   }elseif(isset($_POST['action'])){
+    // If the user wants to update a record (the action was stored with an update, in searchCollections.php)
+    if($action =="update")
+    {
+      // get the values, according to it's unique ID, and display it's conent into the form.
+        $listCollections = $newCollectionClass->getColDetails($id);
+        $row= $listCollections;
+        $cName=$row['collectionName'];
+        $cPub=$row['collectionPub'];
+        $cCond=$row['collectionCond'];
+        $cCost=$row['collectionCost'];
+        $cYear = $row['collectionDate'];
+
+        /* from collectionCount table */
+        $joinTables = $newCollectionClass->getCountDetails($id);
+        $joinRow = $joinTables;
+        $cCount = $joinRow['countOwned'];
+    }
+    else
+    {
+        $cName ="";
+        $cPub  ="";
+        $cCond ="";
+        $cCost ="";
+        $cYear ="";
+        /* from collectionCount table */
+        $cCount ="";
+    }
+  }
+  elseif(isset($_POST['action']))
+  {
       $action = filter_input(INPUT_POST, 'action');
       $id = filter_input(INPUT_POST, 'p_id');
       $cName = filter_input(INPUT_POST, 'inputName');
@@ -53,14 +72,25 @@
       $cCond = filter_input(INPUT_POST, 'inputCond');
       $cCost = filter_input(INPUT_POST, 'inputCost');
       $cYear = filter_input(INPUT_POST, 'inputDate');
-   }
 
-   // depending on the action, execute a specific function from model/patients.php
-  if(isPostRequest() && $action =="update"){
-      $listCollections = $newCollectionClass->updateCollection($cName, $cPub, $cCond, $cCost, $cYear, $id);
-      $result = $listCollections;
-      header('Location: searchCollections.php');
+      /* from collectionCount table */
+      $cCount = filter_input(INPUT_POST, 'inputCount');
    }
+  
+   // If they click the "update" button to confirm the new changes...
+  if(isPostRequest() && $action =="update")
+  {
+    // send the new values to the updateCollection function.
+    $listCollections = $newCollectionClass->updateCollection($cName, $cPub, $cCond, $cCost, $cYear, $id);
+    $result = $listCollections;
+
+
+     /* from collectionCount table */
+     $joinTables== $newCollectionClass->updateACount ($cCount, $id);
+     $isUpdated = $joinTables;
+
+    header('Location: searchCollections.php');
+  }
 ?>
 
 <!-- BEGIN HTML -->
@@ -174,16 +204,23 @@
     </div> 
 
     <div class="form-group">
-      <label class="control-label col-sm-2" for="inputCost">Cost</label>
+      <label class="control-label col-sm-2" for="inputCost">Paid</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" id="inputCost" placeholder="Enter price paid $" name="inputCost" value="<?php echo $cCost; ?>">
       </div>
     </div> 
 
     <div class="form-group">
-      <label class="control-label col-sm-2" for="inputDate">Released</label>
+      <label class="control-label col-sm-2" for="inputDate">Bought On</label>
       <div class="col-sm-10">
         <input type="date" class="form-control" id="inputDate" placeholder="Enter product release date." name="inputDate" value="<?php echo $cYear; ?>">
+      </div>
+    </div> 
+
+    <div class="form-group">
+      <label class="control-label col-sm-2" for="inputCount">Amount Owned</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="inputCount" placeholder="Enter the amount you own" name="inputCount" value="<?php echo $cCount; ?>">
       </div>
     </div> 
     
@@ -198,7 +235,6 @@
       </div>
     </div>
   </form>
-  
 </div>
 
 </body>
