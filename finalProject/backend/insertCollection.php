@@ -4,11 +4,6 @@
   include_once "../include/header.php";
   include_once '../model/collectionBE.php';
 
-  //if not logged in, send the to login.
-  if(!isset($_SESSION["isLoggedIn"]))
-  { 
-    header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
-  }
 
   //if not logged in, kick them
   if (!isUserLoggedIn())
