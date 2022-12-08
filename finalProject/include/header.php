@@ -1,6 +1,6 @@
 <?php
   // This should already be loaded, but just in case
-  include_once __DIR__ . '/functions.php';
+  include_once '../include/functions.php';
 ?>
 
 <!DOCTYPE html>
