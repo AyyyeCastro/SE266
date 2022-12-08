@@ -118,7 +118,7 @@
     <table class="table table-hover">
         <thead>
             <th>Amount Owned</th>
-            <th>Game</th>
+            <th>Collection</th>
         </thead>
         <tbody>
         <?php foreach ($joinTables2 as $row): ?>
