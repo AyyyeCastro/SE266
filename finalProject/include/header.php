@@ -43,7 +43,7 @@
         if (isUserLoggedIn()) 
         { ?>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="logoff.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                <li><a href="backend/logoff.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
             <?php
         } 
