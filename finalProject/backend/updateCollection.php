@@ -1,19 +1,19 @@
 <?php 
-   //call other files
-   include_once "root.php";
-   include_once $root."/include/functions.php";
-   include_once $root."/include/header.php";
-   include_once $root.'/model/collectionBE.php';
+  //call other files
+  include_once "../include/functions.php";
+  include_once "../include/header.php";
+  include_once '../model/collectionBE.php';
 
-  // if not logged in, send them back.
-  if(!isset($_SESSION["isLoggedIn"]))
-  { 
-    header("location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php"); 
+  //if not logged in, kick them
+  if (!isUserLoggedIn())
+  {
+    header("location: ../login.php"); 
   }
 
 
+
   //set new class & config
-  $configFile = $root.'/model/dbconfig.ini';
+  $configFile = '../model/dbconfig.ini';
   try 
   {
     $newCollectionClass = new collectionClass($configFile);

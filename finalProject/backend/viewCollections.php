@@ -1,18 +1,17 @@
 <?php
     // reference files
-    include_once "root.php";
-    include_once $root."/include/functions.php";
-    include_once $root."/include/header.php";
-    include_once $root."/model/userSearch.php";
+    include_once "../include/functions.php";
+    include_once "../include/header.php";
+    include_once "../model/userSearch.php";
 
     //if not logged in, kick them
     if (!isUserLoggedIn())
     {
-        header ('Location: C:/xampp/htdocs/SE266/REPO-Folder/SE266/finalProject/login.php');
+    header("location: ../login.php"); 
     }
 
     // set new classes to call functions
-    $configFile = $root.'/model/dbconfig.ini';
+    $configFile = '../model/dbconfig.ini';
     try 
     {
         $newUserSearchClass = new userSearchClass($configFile);
@@ -135,6 +134,6 @@
 </html>
 
 <?php
-    include_once $root."/include/footer.php";
+    include_once "../include/footer.php";
 ?>
 
