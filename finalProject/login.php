@@ -1,5 +1,5 @@
 <?php
-
+    // VER 3.4 FINAL
     session_start();
     include_once __DIR__ . '/include/functions.php';
     include_once __DIR__ . '/model/userController.php';
